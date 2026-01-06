@@ -1,3 +1,4 @@
+// main goal: To centralize meeting-related actions (create & join) so components don’t repeat Stream and routing logic.
 // hooks folder = holds reusable client-side logic that keeps components clean and consistent.
 import { useRouter } from "next/navigation";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";

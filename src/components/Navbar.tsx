@@ -1,15 +1,8 @@
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
 import { CodeIcon } from "lucide-react";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import DasboardBtn from "./DasboardBtn";
-import { Button } from "./ui/button";
 
 function Navbar() {
   return (
@@ -27,25 +20,11 @@ function Navbar() {
         </Link>
 
         {/* RIGHT SIDE - ACTIONS */}
+
         <div className="flex items-center space-x-4 ml-auto">
+          <DasboardBtn />
           <ModeToggle />
-
-          {/* When signed OUT */}
-          <SignedOut>
-            <SignInButton mode="modal">
-              <Button variant="ghost">Sign in</Button>
-            </SignInButton>
-
-            <SignUpButton mode="modal">
-              <Button>Sign up</Button>
-            </SignUpButton>
-          </SignedOut>
-
-          {/* When signed IN */}
-          <SignedIn>
-            <DasboardBtn />
-            <UserButton />
-          </SignedIn>
+          <UserButton />
         </div>
       </div>
     </nav>

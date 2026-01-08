@@ -1,36 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎥 Video Calling Interview Platform (Next.js)
 
-## Getting Started
+A modern remote interview platform built with **Next.js 14**, supporting **real-time video interviews**, **role-based access**, and **interview scheduling**.
 
-First, run the development server:
+Designed for interviewers and candidates to seamlessly schedule and conduct live technical interviews.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- 🔐 Authentication with Clerk
+- 🎭 Role-based access (Interviewer / Candidate)
+- 📅 Interview scheduling with date & time picker
+- 🎥 Real-time video calls using Stream
+- 🧑‍💻 Live interview interface
+- 🗂 Interview management dashboard
+- ☁️ Serverless backend with Convex
+- 🎨 Modern UI with Tailwind + Radix UI
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Auth:** Clerk
+- **Video:** Stream Video SDK
+- **Backend & DB:** Convex
+- **UI:** Tailwind CSS, Radix UI
+- **State & Utils:** React, date-fns
+- **Deployment:** Vercel
+
+---
+
+## 📦 Main Dependencies
+
+- next
+- react
+- @clerk/nextjs
+- @stream-io/video-react-sdk
+- convex
+- tailwindcss
+- radix-ui
+- react-day-picker
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env.local` file in the root of the project and add:
+
+```env
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+CLERK_JWT_ISSUER_DOMAIN=
+
+# Convex
+NEXT_PUBLIC_CONVEX_URL=
+CONVEX_DEPLOYMENT=
+
+# Stream Video
+NEXT_PUBLIC_STREAM_API_KEY=
+STREAM_SECRET_KEY=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+⚠️ Never commit `.env.local` to GitHub.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔑 Service Setup (For Developers Only)
 
-## Learn More
+This project relies on third-party services.  
+If you want to run **your own copy** of this project locally or deploy it yourself,
+you must create accounts and obtain API keys from the following services.
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Clerk (Authentication)
+- Website: https://clerk.com
+- Used for: User authentication and identity management
+- Required keys:
+  - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  - CLERK_SECRET_KEY
+  - CLERK_JWT_ISSUER_DOMAIN
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Convex (Backend & Database)
+- Website: https://convex.dev
+- Used for: Serverless backend, database, and real-time data
+- Required keys:
+  - NEXT_PUBLIC_CONVEX_URL
+  - CONVEX_DEPLOYMENT
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To initialize Convex locally:
+```bash
+npx convex dev
+```
 
-## Deploy on Vercel
+### 3. Stream Video (Video Calling)
+- Website: https://getstream.io/video
+- Used for: Real-time video interviews
+- Required keys:
+  - NEXT_PUBLIC_STREAM_API_KEY
+  - STREAM_SECRET_KEY
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+⚠️ End users of the deployed application **do NOT** need to configure any of these services.
+All keys are managed by the application owner.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Install dependencies
+```bash
+npm install
+```
+
+### 2️⃣ Start Convex
+```bash
+npx convex dev
+```
+
+### 3️⃣ Run the app
+```bash
+npm run dev
+```
+
+Open 👉 http://localhost:3000
+
+---
+
+## 📁 Project Structure (simplified)
+
+```txt
+src/
+├─ app/            # App Router pages
+├─ components/     # Reusable UI components
+├─ constants/      # App-wide constants
+├─ lib/            # Utilities & helpers
+├─ hooks/          # Custom React hooks
+├─ convex/         # Backend functions
+```
+
+---
+
+## 🧠 Notes
+
+- Microphone and camera permissions must be allowed in the browser
+- Chrome enforces Permissions-Policy strictly in production
+- Video calls are created dynamically using Stream
+
+---
+
+## 📄 License
+
+This project is for learning and portfolio purposes.

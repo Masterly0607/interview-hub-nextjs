@@ -19,20 +19,20 @@ type User = Doc<"users">;
 export const groupInterviews = (interviews: Interview[]) => {
   if (!interviews) return {};
 
-  return interviews.reduce((acc: any, interview: Interview) => {
-    const date = new Date(interview.startTime);
-    const now = new Date();
+  const now = new Date();
 
-    if (interview.status === "succeeded") {
-      acc.succeeded = [...(acc.succeeded || []), interview];
-    } else if (interview.status === "failed") {
-      acc.failed = [...(acc.failed || []), interview];
-    } else if (isBefore(date, now)) {
-      acc.completed = [...(acc.completed || []), interview];
-    } else if (isAfter(date, now)) {
-      acc.upcoming = [...(acc.upcoming || []), interview];
+  return interviews.reduce((acc: any, interview: Interview) => {
+    // If it's already decided, keep it there
+    if (interview.status === "succeeded" || interview.status === "failed") {
+      acc[interview.status] = [...(acc[interview.status] || []), interview];
+      return acc;
     }
 
+    // If time passed, treat as completed (even if status still "upcoming")
+    const isPast = new Date(interview.startTime) < now;
+    const bucket = isPast ? "completed" : "upcoming";
+
+    acc[bucket] = [...(acc[bucket] || []), interview];
     return acc;
   }, {});
 };

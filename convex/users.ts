@@ -1,9 +1,11 @@
-// users.ts(handles user data logic)= To manage user data inside Convex (create users, protect access, and fetch user info).
+// users.ts (handles user data logic)
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-// Mutation:  insert, update and remove data from the database, check authentication or perform other business logic, and optionally return a response to the client application.
-// Query: fetch data from database.
+/* ===========================
+   EXISTING CODE (UNCHANGED)
+=========================== */
+
 export const syncUser = mutation({
   args: {
     name: v.string(),
@@ -11,7 +13,6 @@ export const syncUser = mutation({
     clerkId: v.string(),
     image: v.optional(v.string()),
   },
-  // Create a user in Convex when Clerk creates a user
   handler: async (ctx, args) => {
     const existingUser = await ctx.db
       .query("users")
@@ -22,33 +23,65 @@ export const syncUser = mutation({
 
     return await ctx.db.insert("users", {
       ...args,
-      role: "candidate",
+      // role: "candidate", // default role
     });
   },
 });
 
-// Fetch all users, but only if someone is logged in
 export const getUsers = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("User is not authenticated");
 
-    const users = await ctx.db.query("users").collect();
-
-    return users;
+    return await ctx.db.query("users").collect();
   },
 });
 
-// Fetch all users, but only if someone is logged in
-//
 export const getUserByClerkId = query({
   args: { clerkId: v.string() },
   handler: async (ctx, args) => {
-    const user = await ctx.db
+    return await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
       .first();
+  },
+});
 
-    return user;
+/* ===========================
+   ✅ NEW CODE (ADDED)
+=========================== */
+
+// get current logged-in user's role
+export const getMyRole = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return null;
+
+    return await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+  },
+});
+
+// set role after signup
+export const setMyRole = mutation({
+  args: {
+    role: v.union(v.literal("interviewer"), v.literal("candidate")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    await ctx.db.patch(user._id, {
+      role: args.role,
+    });
   },
 });

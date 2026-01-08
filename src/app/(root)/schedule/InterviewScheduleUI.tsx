@@ -24,7 +24,7 @@ import {
 import UserInfo from "@/components/UserInfo";
 import { Loader2Icon, XIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { TIME_SLOTS } from "@/constants";
+
 import MeetingCard from "@/components/MeetingCard";
 
 function InterviewScheduleUI() {
@@ -265,21 +265,13 @@ function InterviewScheduleUI() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Time</label>
-                  <Select
+                  <Input
+                    type="time"
                     value={formData.time}
-                    onValueChange={(time) => setFormData({ ...formData, time })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {TIME_SLOTS.map((time) => (
-                        <SelectItem key={time} value={time}>
-                          {time}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    onChange={(e) =>
+                      setFormData({ ...formData, time: e.target.value })
+                    }
+                  />
                 </div>
               </div>
 

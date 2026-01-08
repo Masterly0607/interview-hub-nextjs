@@ -15,7 +15,7 @@ Designed for interviewers and candidates to seamlessly schedule and conduct live
 - 🧑‍💻 Live interview interface
 - 🗂 Interview management dashboard
 - ☁️ Serverless backend with Convex
-- 🎨 Modern UI with Tailwind + Radix UI
+- 🎨 Modern UI with Tailwind + ShadCN UI
 
 ---
 
@@ -25,7 +25,7 @@ Designed for interviewers and candidates to seamlessly schedule and conduct live
 - **Auth:** Clerk
 - **Video:** Stream Video SDK
 - **Backend & DB:** Convex
-- **UI:** Tailwind CSS, Radix UI
+- **UI:** Tailwind CSS, ShadCN UI
 - **State & Utils:** React, date-fns
 - **Deployment:** Vercel
 
@@ -39,7 +39,7 @@ Designed for interviewers and candidates to seamlessly schedule and conduct live
 - @stream-io/video-react-sdk
 - convex
 - tailwindcss
-- radix-ui
+- shadcn-ui
 - react-day-picker
 
 ---
